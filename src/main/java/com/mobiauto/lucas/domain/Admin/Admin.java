@@ -18,11 +18,18 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+
 public class Admin {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Number id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nome;
     private String email;
     private String senha;
+
+    public Admin(AdminRequest req) {
+        this.nome = req.nome();
+        this.email = req.email();
+        this.senha = req.senha();
+    }
 }
