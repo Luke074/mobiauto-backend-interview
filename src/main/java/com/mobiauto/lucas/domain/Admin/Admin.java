@@ -27,13 +27,8 @@ public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "Nome é obrigatório")
     private String nome;
-    @NotBlank(message = "E-mail é obrigatório")
-    @Email
     private String email;
-    @NotNull
-    @Size(min = 6)
     private String senha;
 
     public Admin(AdminRequest req) {
