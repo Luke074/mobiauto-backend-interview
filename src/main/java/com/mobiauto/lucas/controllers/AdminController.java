@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +19,6 @@ import com.mobiauto.lucas.domain.Admin.AdminRepository;
 import com.mobiauto.lucas.domain.Admin.AdminRequest;
 
 import jakarta.validation.Valid;
-import lombok.Getter;
-import lombok.Setter;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
