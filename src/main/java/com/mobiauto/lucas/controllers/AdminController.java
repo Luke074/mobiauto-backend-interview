@@ -64,8 +64,7 @@ public class AdminController {
     }
 
     @PutMapping
-    public ResponseEntity updateAdmin(@RequestBody @Valid AdminRequest data) {
-        System.out.println("Dados" + data);
+    public ResponseEntity<String> updateAdmin(@RequestBody @Valid AdminRequest data) {
         Optional<Admin> optionalAdmin = adminRepository.findById(data.id());
 
         if (optionalAdmin.isPresent()) {
@@ -77,13 +76,13 @@ public class AdminController {
 
                 return ResponseEntity.status(HttpStatus.OK).body("Admin atualizado com sucesso!");
             } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("Erro ao cadastrar administrador: " + e.getMessage());
             }
 
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Erro ao atualizar administrador.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro no servidor, aguarde alguns instantes.");
         }
 
     }
@@ -104,8 +103,9 @@ public class AdminController {
                         .body("Erro ao cadastrar administrador: " + e.getMessage());
             }
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Erro ao atualizar administrador.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro no servidor, aguarde alguns instantes.");
         }
     }
+
 }
