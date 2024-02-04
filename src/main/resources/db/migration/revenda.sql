@@ -1,0 +1,6 @@
+CREATE TABLE revenda (
+    id INTEGER AUTOINCREMENT PRIMARY KEY,
+    nome_social INTEGER NOT NULL,
+    cnpj VARCHAR(14) NOT NULL,
+    veiculo_id INTEGER NOT NULL,
+)
