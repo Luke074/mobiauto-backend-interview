@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.mobiauto.lucas.domain.Admin.Admin;
 import com.mobiauto.lucas.domain.Lojas.Lojas;
 import com.mobiauto.lucas.domain.Lojas.LojasRepository;
 import com.mobiauto.lucas.domain.Lojas.LojasRequest;
@@ -18,10 +17,7 @@ import com.mobiauto.lucas.domain.Lojas.LojasRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

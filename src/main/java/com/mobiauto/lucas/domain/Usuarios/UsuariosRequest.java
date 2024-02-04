@@ -10,11 +10,6 @@ public record UsuariosRequest(
         @NotBlank(message = "Nome é obrigatório") String nome,
         @NotBlank(message = "E-mail é obrigatório") @Email(message = "E-mail não é válido.") String email,
         @NotNull @Size(min = 6, max = 32) String senha,
-        @NotNull Cargo cargo,
+        @NotNull CargoUsuario cargo,
         Long loja_id) {
-    public enum Cargo {
-        NOVO,
-        EM_ATENDIMENTO,
-        CONCLUIDO
-    }
 }

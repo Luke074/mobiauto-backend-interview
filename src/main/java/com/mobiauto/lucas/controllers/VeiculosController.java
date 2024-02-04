@@ -2,8 +2,6 @@ package com.mobiauto.lucas.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mobiauto.lucas.domain.Admin.Admin;
-import com.mobiauto.lucas.domain.Admin.AdminRequest;
 import com.mobiauto.lucas.domain.Veiculos.Veiculos;
 import com.mobiauto.lucas.domain.Veiculos.VeiculosRepository;
 import com.mobiauto.lucas.domain.Veiculos.VeiculosRequest;
@@ -11,15 +9,14 @@ import com.mobiauto.lucas.domain.Veiculos.VeiculosRequest;
 import jakarta.validation.Valid;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -40,7 +37,18 @@ public class VeiculosController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum veículo encontrado.");
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(veiculos);
+        List<Map<String, String>> veiculosReturn = new ArrayList<>();
+        for (Veiculos veiculo : veiculos) {
+            Map<String, String> veiculoInfo = new HashMap<>();
+            veiculoInfo.put("nome", veiculo.getNome());
+            veiculoInfo.put("valor", veiculo.getValor());
+            veiculoInfo.put("marca", veiculo.getMarca());
+            veiculoInfo.put("ano_modelo", veiculo.getAno_modelo());
+            veiculoInfo.put("versao", veiculo.getVersao());
+            veiculosReturn.add(veiculoInfo);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(veiculosReturn);
     }
 
     @PostMapping
