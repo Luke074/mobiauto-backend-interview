@@ -41,9 +41,9 @@ public class VeiculosController {
         for (Veiculos veiculo : veiculos) {
             Map<String, String> veiculoInfo = new HashMap<>();
             veiculoInfo.put("nome", veiculo.getNome());
-            veiculoInfo.put("valor", veiculo.getValor());
+            veiculoInfo.put("valor", String.valueOf(veiculo.getValor()));
             veiculoInfo.put("marca", veiculo.getMarca());
-            veiculoInfo.put("ano_modelo", veiculo.getAno_modelo());
+            veiculoInfo.put("ano_modelo", String.valueOf(veiculo.getAno_modelo()));
             veiculoInfo.put("versao", veiculo.getVersao());
             veiculosReturn.add(veiculoInfo);
         }
@@ -52,9 +52,17 @@ public class VeiculosController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createVeiculos(@RequestBody @Valid VeiculosRequest req) {
+    public ResponseEntity<String> createVeiculos(@RequestBody @Valid VeiculosRequest data) {
         try {
-            Veiculos veiculos = new Veiculos(req);
+            Veiculos veiculos = new Veiculos(data);
+
+            veiculos.setNome(data.nome());
+            veiculos.setValor(data.valor());
+            veiculos.setMarca(data.marca());
+            veiculos.setAno_modelo(data.ano_modelo());
+            veiculos.setVersao(data.versao());
+            veiculosRepository.save(veiculos);
+
             veiculosRepository.save(veiculos);
             return ResponseEntity.status(HttpStatus.CREATED).body("Veiculo cadastrado com sucesso!");
         } catch (Exception e) {
@@ -75,7 +83,7 @@ public class VeiculosController {
                 veiculo.setMarca(data.marca());
                 veiculo.setAno_modelo(data.ano_modelo());
                 veiculo.setVersao(data.versao());
-
+                veiculosRepository.save(veiculo);
                 return ResponseEntity.status(HttpStatus.OK).body("Veiculo atualizado com sucesso!");
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)

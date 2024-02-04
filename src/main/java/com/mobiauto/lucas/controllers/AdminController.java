@@ -70,9 +70,14 @@ public class AdminController {
         if (optionalAdmin.isPresent()) {
             try {
                 Admin admin = adminRepository.getReferenceById(data.id());
-                admin.setNome(data.nome());
-                admin.setEmail(data.email());
-                admin.setSenha(data.senha());
+
+                String nomeAtualizado = data.nome() != null ? data.nome() : admin.getNome();
+                admin.setNome(nomeAtualizado);
+                String emailAtualizado = data.email() != null ? data.email() : admin.getEmail();
+                admin.setEmail(emailAtualizado);
+                String senhaAtualizada = data.senha() != null ? data.senha() : admin.getSenha();
+                admin.setSenha(senhaAtualizada);
+                adminRepository.save(admin);
 
                 return ResponseEntity.status(HttpStatus.OK).body("Admin atualizado com sucesso!");
             } catch (Exception e) {

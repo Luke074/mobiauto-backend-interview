@@ -71,6 +71,7 @@ public class LojasController {
                 Lojas loja = lojaRespository.getReferenceById(data.id());
                 loja.setNome(data.nome());
                 loja.setCnpj(data.cnpj());
+                lojaRespository.save(loja);
 
                 return ResponseEntity.status(HttpStatus.OK).body("Loja atualizado com sucesso!");
             } catch (Exception e) {

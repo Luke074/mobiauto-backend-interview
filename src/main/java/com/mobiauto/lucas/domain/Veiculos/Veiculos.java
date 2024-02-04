@@ -1,5 +1,7 @@
 package com.mobiauto.lucas.domain.Veiculos;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,10 +26,10 @@ public class Veiculos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private String valor;
+    private Float valor;
     private String marca;
     private String modelo;
-    private String ano_modelo;
+    private Integer ano_modelo;
     private String versao;
 
     public Veiculos(VeiculosRequest req) {

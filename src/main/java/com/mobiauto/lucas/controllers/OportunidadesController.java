@@ -79,7 +79,7 @@ public class OportunidadesController {
             oportunidade.setStatus_oportunidade(data.status_oportunidade());
             oportunidade.setData_conclusao(data.data_conclusao());
             oportunidade.setRevenda_id(data.revenda_id());
-
+            oportunidadesRepository.save(oportunidade);
             return ResponseEntity.status(HttpStatus.OK).body("Oportunidade atualizada com sucesso!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
