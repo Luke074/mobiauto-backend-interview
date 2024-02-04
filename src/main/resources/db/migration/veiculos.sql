@@ -4,6 +4,6 @@ CREATE TABLE veiculos (
     valor FLOAT(20) NOT NULL,
     marca VARCHAR(100) NOT NULL,
     modelo VARCHAR(100) NOT NULL,
-    ano_modelo DATETIME,
+    ano_modelo INTEGER NOT NULL,
     versao VARCHAR(255) NOT NULL,
 )
