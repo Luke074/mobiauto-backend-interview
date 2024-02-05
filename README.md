@@ -21,9 +21,6 @@ O objetivo principal deste back-end é aprimorar a integração entre o front-en
 
 ## Requisições da API
 
-
-## Requisições da API
-
 #### Admin
 | URL | Type  | Parameter |
 |:----- | :-------- | :------- |
