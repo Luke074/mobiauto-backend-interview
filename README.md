@@ -19,6 +19,49 @@ O objetivo principal deste back-end é aprimorar a integração entre o front-en
 ### Diagrama da Estrutura do projeto
 ![diagrama](https://github.com/Luke074/mobiauto-backend-interview/assets/68557804/17e9bb88-d90b-481a-ae44-fe9654159410)
 
+## Requisições da API
+
+
+## Requisições da API
+
+#### Admin
+| URL | Type  | Parameter |
+|:----- | :-------- | :------- |
+| `/admin` | `GET` | Não precisa de paramentro| 
+| `/admin` | `POST` | Envie os dados pelo `body` da requisição| 
+| `/admin` | `PUT` | É nescessario o dado `id` enviado pelo `body` da requisição| 
+| `/admin/{id}` | `DELETE` | É nescessario colocor o `id` na url| 
+
+#### Usuarios
+| URL | Type  | Parameter |
+|:----- | :-------- | :------- |
+| `/usuarios` | `GET` | Não precisa de paramentro| 
+| `/usuarios` | `POST` | Envie os dados pelo `body` da requisição| 
+| `/usuarios` | `PUT` | É nescessario o dado `id` enviado pelo `body` da requisição| 
+| `/usuarios/{id}` | `DELETE` | É nescessario colocor o `id` na url| 
+
+#### Veiculos
+| URL | Type  | Parameter |
+|:----- | :-------- | :------- |
+| `/veiculos` | `GET` | Não precisa de paramentro| 
+| `/veiculos` | `POST` | Envie os dados pelo `body` da requisição| 
+| `/veiculos` | `PUT` | É nescessario o dado `id` enviado pelo `body` da requisição| 
+| `/veiculos/{id}` | `DELETE` | É nescessario colocor o `id` na url| 
+
+#### Lojas
+| URL | Type  | Parameter |
+|:----- | :-------- | :------- |
+| `/lojas` | `GET` | Não precisa de paramentro| 
+| `/lojas` | `POST` | Envie os dados pelo `body` da requisição| 
+| `/lojas` | `PUT` | É nescessario o dado `id` enviado pelo `body` da requisição| 
+| `/lojas/{id}` | `DELETE` | É nescessario colocor o `id` na url| 
+
+#### Oportunidades
+| URL | Type  | Parameter |
+|:----- | :-------- | :------- |
+| `/oportunidades` | `GET` | Não precisa de paramentro| 
+| `/oportunidades` | `POST` | Envie os dados pelo `body` da requisição|
+
 ## Fale conosco para suporte
 
 - E-mail: `mendeslucas277@gmail.com`
