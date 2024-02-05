@@ -29,7 +29,7 @@ public class Oportunidades {
     private Long revenda_id;
     private Date data_aplicacao;
     private Date data_conclusao;
-    private StatusOportunidade status_oportunidade;
+    private String status_oportunidade;
 
     public Oportunidades(OportunidadesRequest req) {
         this.cliente_id = req.cliente_id();

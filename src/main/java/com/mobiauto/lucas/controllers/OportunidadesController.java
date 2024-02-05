@@ -5,10 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mobiauto.lucas.domain.Oportunidades.Oportunidades;
 import com.mobiauto.lucas.domain.Oportunidades.OportunidadesRepository;
 import com.mobiauto.lucas.domain.Oportunidades.OportunidadesRequest;
-import com.mobiauto.lucas.domain.Oportunidades.StatusOportunidade;
-import com.mobiauto.lucas.domain.Veiculos.Veiculos;
-import com.mobiauto.lucas.domain.Veiculos.VeiculosRepository;
-import com.mobiauto.lucas.domain.Veiculos.VeiculosRequest;
 
 import jakarta.validation.Valid;
 
@@ -58,7 +54,7 @@ public class OportunidadesController {
         try {
             Oportunidades newOportunidade = new Oportunidades();
 
-            newOportunidade.setStatus_oportunidade(StatusOportunidade.NOVO);
+            newOportunidade.setStatus_oportunidade("novo");
             newOportunidade.setData_aplicacao(data.data_aplicacao());
             newOportunidade.setCliente_id(data.cliente_id());
 
@@ -72,19 +68,26 @@ public class OportunidadesController {
 
     @PutMapping
     public ResponseEntity<String> updateOportunidade(@RequestBody @Valid OportunidadesRequest data) {
-        try {
+        Optional<Oportunidades> optionOportunidades = oportunidadesRepository.findById(data.id());
 
-            Oportunidades oportunidade = oportunidadesRepository.getReferenceById(data.id());
+        if (optionOportunidades.isPresent()) {
+            try {
 
-            oportunidade.setStatus_oportunidade(data.status_oportunidade());
-            oportunidade.setData_conclusao(data.data_conclusao());
-            oportunidade.setRevenda_id(data.revenda_id());
-            oportunidadesRepository.save(oportunidade);
-            return ResponseEntity.status(HttpStatus.OK).body("Oportunidade atualizada com sucesso!");
-        } catch (Exception e) {
+                Oportunidades oportunidade = oportunidadesRepository.getReferenceById(data.id());
+
+                oportunidade.setStatus_oportunidade(data.status_oportunidade());
+                oportunidade.setData_conclusao(data.data_conclusao());
+                oportunidade.setRevenda_id(data.revenda_id());
+                oportunidadesRepository.save(oportunidade);
+                return ResponseEntity.status(HttpStatus.OK).body("Oportunidade atualizada com sucesso!");
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Erro ao atualizar oportunidade: " + e.getMessage());
+            }
+        } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao atualizar oportunidade: " + e.getMessage());
-
+                    .body("Erro no servidor, aguarde alguns instantes.");
         }
+
     }
 }

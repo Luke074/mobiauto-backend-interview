@@ -37,14 +37,15 @@ public class LojasController {
         List<Lojas> lojas = lojaRespository.findAll();
 
         if (lojas.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum administrador encontrado.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum lojas encontrado.");
         }
 
         List<Map<String, String>> lojasReturn = new ArrayList<>();
         for (Lojas loja : lojas) {
             Map<String, String> lojaInfo = new HashMap<>();
             lojaInfo.put("nome", loja.getNome());
-            lojaInfo.put("cnpj", loja.getCnpj());
+            lojaInfo.put("cnpj", loja.getCnpj().replaceAll(
+                    "(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
             lojasReturn.add(lojaInfo);
         }
 
@@ -54,8 +55,10 @@ public class LojasController {
     @PostMapping
     public ResponseEntity<String> createdLoja(@RequestBody @Valid LojasRequest data) {
         try {
-            Lojas newLoja = new Lojas(data);
-            lojaRespository.save(newLoja);
+            Lojas loja = new Lojas(data);
+            loja.setNome(data.nome());
+            loja.setCnpj(data.cnpj().replaceAll("\\D", ""));
+            lojaRespository.save(loja);
             return ResponseEntity.status(HttpStatus.CREATED).body("Loja cadastrada com sucesso!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -70,7 +73,7 @@ public class LojasController {
             try {
                 Lojas loja = lojaRespository.getReferenceById(data.id());
                 loja.setNome(data.nome());
-                loja.setCnpj(data.cnpj());
+                loja.setCnpj(data.cnpj().replaceAll("\\D", ""));
                 lojaRespository.save(loja);
 
                 return ResponseEntity.status(HttpStatus.OK).body("Loja atualizado com sucesso!");
@@ -84,7 +87,7 @@ public class LojasController {
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteLoja(@PathVariable Long id) {
         Optional<Lojas> optionalLoja = lojaRespository.findById(id);
 

@@ -26,7 +26,7 @@ public class Usuarios {
     private String nome;
     private String email;
     private String senha;
-    private CargoUsuario cargo;
+    private String cargo;
     private Long loja_id;
 
     public Usuarios(UsuariosRequest req) {
