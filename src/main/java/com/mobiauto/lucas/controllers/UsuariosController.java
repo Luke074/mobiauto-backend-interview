@@ -60,6 +60,7 @@ public class UsuariosController {
             usuario.setEmail(data.email());
             usuario.setSenha(data.senha());
             usuario.setCargo(data.cargo());
+            usuario.setLoja_id(data.loja_id());
 
             usuarioRepository.save(usuario);
             return ResponseEntity.status(HttpStatus.CREATED).body("Usuario cadastrado com sucesso!");

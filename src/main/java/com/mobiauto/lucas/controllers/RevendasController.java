@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mobiauto.lucas.domain.Oportunidades.Oportunidades;
 import com.mobiauto.lucas.domain.Oportunidades.OportunidadesRepository;
-import com.mobiauto.lucas.domain.Oportunidades.OportunidadesRequest;
 import com.mobiauto.lucas.domain.Revendas.Revendas;
 import com.mobiauto.lucas.domain.Revendas.RevendasRepository;
 import com.mobiauto.lucas.domain.Revendas.RevendasRequest;
@@ -26,9 +25,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping("/revendas")
@@ -89,7 +85,7 @@ public class RevendasController {
 
             } else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("Erro ao cadastrar oportunidade: " + e.getMessage());
+                        .body("Erro no servidor, aguarde alguns instantes.");
             }
 
             return ResponseEntity.status(HttpStatus.CREATED).body("Revenda cadastrada com sucesso!");
