@@ -1,7 +1,6 @@
 package com.mobiauto.lucas.domain.Roles;
 
 public enum Roles {
-    ADMIN("admin"),
     PROPRIETARIO("proprietario"),
     GERENTE("gerente"),
     ASSISTENTE("assistente");
