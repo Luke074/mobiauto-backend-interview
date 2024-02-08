@@ -36,7 +36,7 @@ public class Usuarios implements UserDetails {
     private String nome;
     private String email;
     private String senha;
-    private String cargo;
+    private CargoUsuario cargo;
     private Long loja_id;
     private Roles role;
 
@@ -50,9 +50,10 @@ public class Usuarios implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == Roles.ADMIN)
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_PROPRIETARIO"));
-        else if (this.role == Roles.PROPRIETARIO)
+        // if (this.role == Roles.ADMIN)
+        // return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new
+        // SimpleGrantedAuthority("ROLE_PROPRIETARIO"));
+        if (this.role == Roles.PROPRIETARIO)
             return List.of(new SimpleGrantedAuthority("ROLE_PROPRIETARIO"));
         else if (this.role == Roles.GERENTE)
             return List.of(new SimpleGrantedAuthority("ROLE_GERENTE"));
