@@ -2,6 +2,7 @@ package com.mobiauto.lucas.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mobiauto.lucas.domain.Usuarios.CargoUsuario;
 import com.mobiauto.lucas.domain.Usuarios.Usuarios;
 import com.mobiauto.lucas.domain.Usuarios.UsuariosRepository;
 import com.mobiauto.lucas.domain.Usuarios.UsuariosRequest;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,14 +58,17 @@ public class UsuariosController {
         try {
             Usuarios usuario = new Usuarios(data);
 
+            String encripty = new BCryptPasswordEncoder().encode(data.senha());
+
             usuario.setNome(data.nome());
             usuario.setEmail(data.email());
-            usuario.setSenha(data.senha());
+            usuario.setSenha(encripty);
             usuario.setCargo(data.cargo());
             usuario.setLoja_id(data.loja_id());
 
             usuarioRepository.save(usuario);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Usuario cadastrado com sucesso!");
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body("Usuario " + data.nome() + " cadastrado com o cargo" + data.cargo() + " com sucesso!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Erro ao cadastrar usuário: " + e.getMessage());
@@ -83,7 +88,7 @@ public class UsuariosController {
                 usuario.setEmail(emailAtualizado);
                 String senhaAtualizado = data.senha() != null ? data.senha() : usuario.getSenha();
                 usuario.setSenha(senhaAtualizado);
-                String cargoAtualizado = data.cargo() != null ? data.cargo() : usuario.getCargo();
+                CargoUsuario cargoAtualizado = data.cargo() != null ? data.cargo() : usuario.getCargo();
                 usuario.setCargo(cargoAtualizado);
 
                 Long lojaIdAtualizado = data.loja_id() != null ? data.loja_id() : usuario.getLoja_id();

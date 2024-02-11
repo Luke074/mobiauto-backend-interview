@@ -1,4 +1,3 @@
-@ -1,17 +0,0 @@
 package com.mobiauto.lucas.domain.Usuarios;
 
 public enum CargoUsuario {
