@@ -44,6 +44,7 @@ public class AdminController {
         for (Admin admin : administrators) {
             Map<String, String> adminInfo = new HashMap<>();
             adminInfo.put("nome", admin.getNome());
+            adminInfo.put("nome_usuario", admin.getNome_usuario());
             adminInfo.put("email", admin.getEmail());
             adminReturn.add(adminInfo);
         }
@@ -73,6 +74,9 @@ public class AdminController {
 
                 String nomeAtualizado = data.nome() != null ? data.nome() : admin.getNome();
                 admin.setNome(nomeAtualizado);
+                String nomeUsuarioAtualizado = data.nome_usuario() != null ? data.nome_usuario()
+                        : admin.getNome_usuario();
+                admin.setNome_usuario(nomeUsuarioAtualizado);
                 String emailAtualizado = data.email() != null ? data.email() : admin.getEmail();
                 admin.setEmail(emailAtualizado);
                 String senhaAtualizada = data.senha() != null ? data.senha() : admin.getSenha();

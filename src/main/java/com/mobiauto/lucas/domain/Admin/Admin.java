@@ -24,11 +24,13 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    private String nome_usuario;
     private String email;
     private String senha;
 
     public Admin(AdminRequest req) {
         this.nome = req.nome();
+        this.nome_usuario = req.nome_usuario();
         this.email = req.email();
         this.senha = req.senha();
     }

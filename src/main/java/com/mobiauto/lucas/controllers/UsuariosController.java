@@ -68,7 +68,7 @@ public class UsuariosController {
 
             usuarioRepository.save(usuario);
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body("Usuario " + data.nome() + " cadastrado com o cargo" + data.cargo() + " com sucesso!");
+                    .body("Usuario " + data.nome() + " cadastrado com sucesso!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Erro ao cadastrar usuário: " + e.getMessage());

@@ -6,8 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record AdminRequest(
-                Long id,
-                @NotBlank(message = "Nome é obrigatório") String nome,
-                @NotBlank(message = "E-mail é obrigatório") @Email(message = "E-mail não é válido.") String email,
-                @NotNull @Size(min = 6, max = 32) String senha) {
+        Long id,
+        @NotBlank(message = "Nome é obrigatório") String nome,
+        @NotBlank(message = "Nome de usuario é obrigatório") String nome_usuario,
+        @NotBlank(message = "E-mail é obrigatório") @Email(message = "E-mail não é válido.") String email,
+        @NotNull @Size(min = 6, max = 32) String senha) {
 }
