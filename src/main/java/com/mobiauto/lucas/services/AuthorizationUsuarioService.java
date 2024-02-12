@@ -13,14 +13,14 @@ import com.mobiauto.lucas.domain.Usuarios.UsuariosRepository;
  * AuthorizationService
  */
 @Service
-public class AuthorizationService implements UserDetailsService {
+public class AuthorizationUsuarioService implements UserDetailsService {
 
     @Autowired
     UsuariosRepository repository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findByEmail(username);
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        return repository.findByLogin(login);
     }
 
 }

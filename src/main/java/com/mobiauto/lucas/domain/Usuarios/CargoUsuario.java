@@ -1,6 +1,7 @@
 package com.mobiauto.lucas.domain.Usuarios;
 
 public enum CargoUsuario {
+    ADMIN("admin"),
     PROPRIETARIO("proprietario"),
     GERENTE("gerente"),
     ASSISTENTE("assistente");

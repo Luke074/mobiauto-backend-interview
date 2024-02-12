@@ -2,10 +2,10 @@ package com.mobiauto.lucas.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mobiauto.lucas.domain.Roles.AuthenticationDTO;
+import com.mobiauto.lucas.domain.Response.ResponseDTO;
+import com.mobiauto.lucas.domain.Roles.AuthenticationUsuarioDTO;
 import com.mobiauto.lucas.domain.Usuarios.Usuarios;
-import com.mobiauto.lucas.domain.Usuarios.UsuariosRepository;
-import com.mobiauto.lucas.domain.Usuarios.UsuariosRequest;
+import com.mobiauto.lucas.security.TokenService;
 
 import jakarta.validation.Valid;
 
@@ -24,14 +24,19 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private UsuariosRepository usuarioRepository;
+    private TokenService tokenService;
 
     @PostMapping("/usuario/login")
-    public ResponseEntity<String> loginUsuarios(@RequestBody @Valid AuthenticationDTO data) {
-        var emailPassoword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
-        var auth = this.authenticationManager.authenticate(emailPassoword);
+    public ResponseEntity<String> loginUsuarios(@RequestBody @Valid AuthenticationUsuarioDTO data) {
+        var emailSenha = new UsernamePasswordAuthenticationToken(data.email(),
+                data.senha());
+        var auth = this.authenticationManager.authenticate(emailSenha);
+        System.err.println(auth);
 
-        return ResponseEntity.status(HttpStatus.OK).body("Usuario logado com sucesso.");
+        var token = tokenService.gerarToken((Usuarios) auth.getPrincipal());
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("Usuario logado com sucesso, token de acesso: /n" + new ResponseDTO(token));
     }
 
 }
