@@ -1,4 +1,4 @@
 package com.mobiauto.lucas.domain.Roles;
 
-public record AuthenticationUsuarioDTO(String email, String senha) {
+public record AuthenticationUsuarioDTO(String login, String senha) {
 }

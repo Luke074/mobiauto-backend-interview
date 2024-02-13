@@ -28,7 +28,7 @@ public class AuthController {
 
     @PostMapping("/usuario/login")
     public ResponseEntity<String> loginUsuarios(@RequestBody @Valid AuthenticationUsuarioDTO data) {
-        var emailSenha = new UsernamePasswordAuthenticationToken(data.email(),
+        var emailSenha = new UsernamePasswordAuthenticationToken(data.login(),
                 data.senha());
         var auth = this.authenticationManager.authenticate(emailSenha);
         System.err.println(auth);
@@ -36,7 +36,7 @@ public class AuthController {
         var token = tokenService.gerarToken((Usuarios) auth.getPrincipal());
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body("Usuario logado com sucesso, token de acesso: /n" + new ResponseDTO(token));
+                .body("Usuario logado com sucesso, token de acesso: " + token);
     }
 
 }
