@@ -9,14 +9,18 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mobiauto.lucas.domain.Admin.Admin;
-import com.mobiauto.lucas.domain.Admin.AdminRepository;
-import com.mobiauto.lucas.domain.Admin.AdminRequest;
+import com.mobiauto.lucas.domain.Usuarios.AdminRequest;
+import com.mobiauto.lucas.domain.Usuarios.CargoUsuario;
+import com.mobiauto.lucas.domain.Usuarios.Usuarios;
+import com.mobiauto.lucas.domain.Usuarios.UsuariosRepository;
+import com.mobiauto.lucas.domain.Usuarios.UsuariosRequest;
 
 import jakarta.validation.Valid;
 
@@ -30,33 +34,42 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class AdminController {
 
     @Autowired
-    private AdminRepository adminRepository;
+    private UsuariosRepository adminRepository;
 
     @GetMapping
     public ResponseEntity<Object> getAllAdmin() {
-        List<Admin> administrators = adminRepository.findAll();
-
+        List<Usuarios> administrators = adminRepository.findAll();
         if (administrators.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum administrador encontrado.");
         }
 
         List<Map<String, String>> adminReturn = new ArrayList<>();
-        for (Admin admin : administrators) {
-            Map<String, String> adminInfo = new HashMap<>();
-            adminInfo.put("nome", admin.getNome());
-            adminInfo.put("nome_usuario", admin.getNome_usuario());
-            adminInfo.put("email", admin.getEmail());
-            adminReturn.add(adminInfo);
+        for (Usuarios admin : administrators) {
+            if (admin.getCargo() == CargoUsuario.ADMIN) {
+                Map<String, String> adminInfo = new HashMap<>();
+                adminInfo.put("nome", admin.getNome());
+                adminInfo.put("login", admin.getLogin());
+                adminInfo.put("email", admin.getEmail());
+                adminReturn.add(adminInfo);
+            }
         }
-
         return ResponseEntity.status(HttpStatus.OK).body(adminReturn);
     }
 
     @PostMapping
-    public ResponseEntity<String> createdAdmin(@RequestBody @Valid AdminRequest data) {
+    public ResponseEntity<String> createdAdmin(@RequestBody @Validated(AdminRequest.class) UsuariosRequest data) {
         try {
-            Admin newAdmin = new Admin(data);
-            adminRepository.save(newAdmin);
+            Usuarios admin = new Usuarios(data);
+
+            String encripty = new BCryptPasswordEncoder().encode(data.senha());
+
+            admin.setNome(data.nome());
+            admin.setEmail(data.email());
+            admin.setLogin(data.login());
+            admin.setSenha(encripty);
+            admin.setCargo(CargoUsuario.ADMIN);
+
+            adminRepository.save(admin);
             return ResponseEntity.status(HttpStatus.CREATED).body("Admin cadastrado com sucesso!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -65,18 +78,22 @@ public class AdminController {
     }
 
     @PutMapping
-    public ResponseEntity<String> updateAdmin(@RequestBody @Valid AdminRequest data) {
-        Optional<Admin> optionalAdmin = adminRepository.findById(data.id());
+    public ResponseEntity<String> updateAdmin(@RequestBody @Validated(AdminRequest.class) UsuariosRequest data) {
+        Optional<Usuarios> optionalAdmin = adminRepository.findById(data.id());
 
         if (optionalAdmin.isPresent()) {
             try {
-                Admin admin = adminRepository.getReferenceById(data.id());
+                Usuarios admin = adminRepository.getReferenceById(data.id());
 
+                if (admin.getCargo() != CargoUsuario.ADMIN) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body("Este usuario não é admin!");
+                }
                 String nomeAtualizado = data.nome() != null ? data.nome() : admin.getNome();
                 admin.setNome(nomeAtualizado);
-                String nomeUsuarioAtualizado = data.nome_usuario() != null ? data.nome_usuario()
-                        : admin.getNome_usuario();
-                admin.setNome_usuario(nomeUsuarioAtualizado);
+                String loginAtualizado = data.login() != null ? data.login()
+                        : admin.getLogin();
+                admin.setLogin(loginAtualizado);
                 String emailAtualizado = data.email() != null ? data.email() : admin.getEmail();
                 admin.setEmail(emailAtualizado);
                 String senhaAtualizada = data.senha() != null ? data.senha() : admin.getSenha();
@@ -98,11 +115,15 @@ public class AdminController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAdmin(@PathVariable Long id) {
-        Optional<Admin> optionalAdmin = adminRepository.findById(id);
+        Optional<Usuarios> optionalAdmin = adminRepository.findById(id);
 
         if (optionalAdmin.isPresent()) {
             try {
-                Admin admin = adminRepository.getReferenceById(id);
+                Usuarios admin = adminRepository.getReferenceById(id);
+                if (admin.getCargo() != CargoUsuario.ADMIN) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body("Este usuario não é admin!");
+                }
 
                 adminRepository.delete(admin);
 

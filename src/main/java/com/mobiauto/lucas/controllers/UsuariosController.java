@@ -2,6 +2,7 @@ package com.mobiauto.lucas.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mobiauto.lucas.domain.Lojas.LojasRepository;
 import com.mobiauto.lucas.domain.Usuarios.CargoUsuario;
 import com.mobiauto.lucas.domain.Usuarios.Usuarios;
 import com.mobiauto.lucas.domain.Usuarios.UsuariosRepository;
@@ -33,6 +34,9 @@ public class UsuariosController {
 
     @Autowired
     private UsuariosRepository usuarioRepository;
+
+    @Autowired
+    private LojasRepository lojasRepository;
 
     @GetMapping
     public ResponseEntity<Object> getAllUsuarios() {

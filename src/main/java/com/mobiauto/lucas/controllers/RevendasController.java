@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mobiauto.lucas.domain.Oportunidades.Oportunidades;
 import com.mobiauto.lucas.domain.Oportunidades.OportunidadesRepository;
+import com.mobiauto.lucas.domain.Oportunidades.StatusOportunidade;
 import com.mobiauto.lucas.domain.Revendas.Revendas;
 import com.mobiauto.lucas.domain.Revendas.RevendasRepository;
 import com.mobiauto.lucas.domain.Revendas.RevendasRequest;
@@ -61,7 +62,6 @@ public class RevendasController {
 
             newRevenda.setNome_social(data.nome_social());
             newRevenda.setCnpj(data.cnpj().replaceAll("\\D", ""));
-            newRevenda.setVeiculo_id(data.veiculo_id());
 
             Optional<Oportunidades> optionOportunidades = oportunidadeRepository.findById(data.oportunidade_id());
 
@@ -70,17 +70,17 @@ public class RevendasController {
                 Revendas revenda = revendaRepository.save(newRevenda);
                 Long revenda_id = revenda.getId();
 
-                Oportunidades oportunidade = oportunidadeRepository.getReferenceById(data.id());
+                Oportunidades oportunidade = oportunidadeRepository.getReferenceById(data.oportunidade_id());
 
                 Date dataAtual = new Date();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date data_conclusao = formatter.parse(formatter.format(dataAtual));
 
-                oportunidade.setCliente_id(oportunidade.getCliente_id());
-                oportunidade.setStatus_oportunidade("concluido");
-                oportunidade.setData_aplicacao(oportunidade.getData_aplicacao());
-                oportunidade.setData_conclusao(data_conclusao);
                 oportunidade.setRevenda_id(revenda_id);
+                oportunidade.setData_conclusao(data_conclusao);
+                oportunidade.setUsuario_id(oportunidade.getUsuario_id());
+                oportunidade.setStatus_oportunidade(StatusOportunidade.CONCLUIDO);
+
                 oportunidadeRepository.save(oportunidade);
 
             } else {

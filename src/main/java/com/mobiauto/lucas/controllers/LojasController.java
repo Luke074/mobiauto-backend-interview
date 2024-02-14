@@ -55,6 +55,11 @@ public class LojasController {
     @PostMapping
     public ResponseEntity<String> createdLoja(@RequestBody @Valid LojasRequest data) {
         try {
+
+            if (lojaRespository.existsByCnpj(data.cnpj())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("CNPJ já cadastrado.");
+            }
+
             Lojas loja = new Lojas(data);
             loja.setNome(data.nome());
             loja.setCnpj(data.cnpj().replaceAll("\\D", ""));
@@ -71,6 +76,12 @@ public class LojasController {
         Optional<Lojas> optionalLoja = lojaRespository.findById(data.id());
         if (optionalLoja.isPresent()) {
             try {
+
+                if (!data.cnpj().replaceAll("\\D", "").equals(optionalLoja.get().getCnpj())) {
+                    if (lojaRespository.existsByCnpj(data.cnpj().replaceAll("\\D", ""))) {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("CNPJ já cadastrado.");
+                    }
+                }
                 Lojas loja = lojaRespository.getReferenceById(data.id());
                 loja.setNome(data.nome());
                 loja.setCnpj(data.cnpj().replaceAll("\\D", ""));
