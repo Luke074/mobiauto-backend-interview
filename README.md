@@ -74,6 +74,13 @@ Para acessar o sistema é nescesario usar um `login` e `senha`
 |:----- | :-------- | :------- |
 | `/oportunidades` | `GET` | Não precisa de paramentro| 
 | `/oportunidades` | `POST` | Envie os dados pelo `body` da requisição|
+| `/oportunidades` | `PUT` | Envie os dados pelo `body` da requisição|
+
+#### Revendas
+| URL | Type  | Parameter |
+|:----- | :-------- | :------- |
+| `/revendas` | `GET` | Não precisa de paramentro| 
+| `/revendas` | `POST` | Envie os dados pelo `body` da requisição|
 
 ## Fale conosco para suporte
 
