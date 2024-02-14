@@ -35,7 +35,7 @@ Caso precise das requisições pronta, o link com todas as pastas de requisiçõ
 Para acessar o sistema é nescesario usar um `login` e `senha`
 | URL | Type  | Parameter |
 |:----- | :-------- | :------- |
-| `/usuarios` | `POSt` | É nescessario enviar pelo `body`, `login` e `senha` | 
+| `/auth/usuario/login` | `POSt` | É nescessario enviar pelo `body`, `login` e `senha` | 
 
 #### Admin
 | URL | Type  | Parameter |
